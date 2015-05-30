@@ -1,0 +1,3 @@
+*.json
+functions/json_stemming.json
+functions/example.json
