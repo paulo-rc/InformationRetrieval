@@ -1,3 +1,8 @@
 *.json
 functions/json_stemming.json
 functions/example.json
+functions/corpus.mm
+functions/corpus.mm.index
+functions/corpus_tfidf.mm
+functions/words_dict.dict
+
