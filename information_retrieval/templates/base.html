@@ -1,0 +1,25 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+  <html>
+    <head>
+      <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css' %}"  media="screen,projection"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+      <title>{% block title %}{% endblock %}</title>
+    </head>
+
+    <body>
+      <nav>
+        <div class="nav-wrapper">
+          <form>
+            <div class="input-field">
+              <input id="search" type="search" required>
+              <label for="search"><i class="mdi-action-search"></i></label>
+              <i class="mdi-navigation-close"></i>
+            </div>
+          </form>
+        </div>
+      </nav>
+      <script type="text/javascript" src="{% static 'js/jquery-2.1.1.min.js' %}"></script>
+      <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+    </body>
+  </html>

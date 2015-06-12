@@ -17,6 +17,8 @@ import json
 from pprint import pprint
 
 from collections import defaultdict
+
+#For execution time
 import time
 
 class MyCorpus(object):
@@ -124,7 +126,7 @@ corpus_object = MyCorpus(json_path='example.json', json_key='noticia')
 corpus_object.load_dictionary()
 #corpus_object.print_dictionary()
 #corpus_object.print_corpus()
-corpus_object.query('economía')
+corpus_object.query('cntpe')
 
 
 # corpus_object.load_dictionary()
