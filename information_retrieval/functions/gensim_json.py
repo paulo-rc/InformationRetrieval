@@ -18,19 +18,25 @@ from pprint import pprint
 
 from collections import defaultdict
 
-#For execution time
-import time
+#Importing settings
+from django.conf import settings
+
+#Defining data dirs
+json_dir = settings.GENSIM_DATA_JSON_DIR
+data_dir = settings.GENSIM_GENERATED_DATA_DIR
 
 class MyCorpus(object):
 
-  def __init__(self, json_path, json_key, dictionary_path='words_dict.dict', corpus_path='corpus.mm', corpus_tfidf_path='corpus_tfidf.mm', similarities_matrix_path='tst'):
-    self.json_path = json_path
-    self.dictionary = []
-    self.json_key = json_key
-    self.corpus_tfidf_path = corpus_tfidf_path
-    self.corpus_path = corpus_path
-    self.dictionary_path = dictionary_path
-    self.similarities_matrix_path = similarities_matrix_path
+  def __init__(self, json_key, json_path=json_dir, dictionary_path=data_dir+'words_dict.dict',
+    corpus_path=data_dir+'corpus.mm', corpus_tfidf_path=data_dir+'corpus_tfidf.mm',
+    similarities_matrix_path=data_dir+'matrix'):
+      self.json_path = json_path
+      self.dictionary = []
+      self.json_key = json_key
+      self.corpus_tfidf_path = corpus_tfidf_path
+      self.corpus_path = corpus_path
+      self.dictionary_path = dictionary_path
+      self.similarities_matrix_path = similarities_matrix_path
 
   def __iter__(self):
     for line in self.load_json():
@@ -108,74 +114,12 @@ class MyCorpus(object):
     self.save_transformed_corpus_to_tf_idf()
     self.save_similarities_matrix()
 
-  def query(self, query):
+  def query(self, query, begin, end):
     queue  = Q.PriorityQueue()
     vec_query = self.dictionary.doc2bow(query.lower().split())
     index = self.load_similiarities_matrix()
-    for similarities in enumerate(index[vec_query][0:100]) :
+    for similarities in enumerate(index[vec_query][begin:end]) :
       if similarities[1] != 0:
         queue.put((-similarities[1], similarities[0]))
     while not queue.empty():
       print queue.get()
-
-
-start_time = time.time()
-
-corpus_object = MyCorpus(json_path='example.json', json_key='noticia')
-#corpus_object.first_run()
-corpus_object.load_dictionary()
-#corpus_object.print_dictionary()
-#corpus_object.print_corpus()
-corpus_object.query('cntpe')
-
-
-# corpus_object.load_dictionary()
-# corpus = corpus_object.load_vector_corpus()
-# tfidf = corpus_object.load_transformed_corpus_to_tf_idf()
-# index = similarities.Similarity('tst', tfidf[corpus], num_features=len(corpus_object.dictionary))
-
-# query = 'CNTPE tratara tema del sueldo'
-# vec_query = corpus_object.dictionary.doc2bow(query.lower().split())
-
-# for similarities in enumerate(index[vec_query][0:10]) :
-#   print similarities
-
-#corpus.query('CNTPE tratara tema del sueldo')
-#corpus_object.first_run()
-#corpus_object.load_dictionary()
-# corpus = corpus_object.load_vector_corpus()
-# tfidf = corpus_object.load_transformed_corpus_to_tf_idf()
-#corpus_tfidf = tfidf[corpus]
-
-# query = 'CNTPE tratara tema del sueldo'
-# vec_query = corpus_object.dictionary.doc2bow(query.lower().split())
-#index = similarities.SparseMatrixSimilarity(tfidf[corpus], num_features=len(corpus_object.dictionary))
-#sims = index[tfidf[vec_query]]
-
-#index = similarities.Similarity('tst', tfidf[corpus], num_features=len(corpus_object.dictionary)) # build the index
-# index = similarities.Similarity.load('tst.0')
-# similarities = index[vec_query] # get similarities between the query and all index documents
-# for similarities in enumerate(index[vec_query][0:10]) :
-#   print similarities
-
-#corpus.first_run()
-#corpus.print_dictionary()
-#corpus_object.query('CNTPE tratara tema del sueldo', tfidf=tfidf, corpus_tfidf=corpus_tfidf)
-# corpus_tfidf=corpus.load_transformed_corpus_to_tf_idf(
-#   corpus=corpus.load_vector_corpus()
-# )
-# corpus.print_corpus(
-#   corpus_tfidf=corpus_tfidf
-# )
-
-print("--- %s seconds ---" % (time.time() - start_time))
-
-
-
-
-
-#corpus.print_corpus(corpus_tfidf=corpus.load_vector_corpus())
-#corpus.save_transformed_corpus_to_tf_idf()
-#corpus.print_corpus(corpus.load_transformed_corpus_to_tf_idf(corp))
-#corpus.load_dictionary('words_dict.dict')
-#corpus.print_dictionary()

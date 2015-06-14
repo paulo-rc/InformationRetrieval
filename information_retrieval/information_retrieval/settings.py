@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'retrieval_app',
+    'functions',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -122,3 +123,12 @@ TEMPLATES = [
         },
     },
 ]
+
+# Gensim data path
+
+GENSIM_DATA_JSON_DIR = '/home/paulo/Downloads/gensim_dataa/data.json'
+GENSIM_GENERATED_DATA_DIR = '/home/paulo/Downloads/gensim_dataa/'
+
+#Json data key
+
+JSON_KEY = 'noticia'
